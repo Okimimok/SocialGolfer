@@ -60,8 +60,9 @@ class TestInTree(unittest.TestCase):
 
     # Test simple cases of get_ordered_pairs
     def test_get_ordered_pairs_simple(self):
-        self.assertEqual(self.tree1.get_ordered_pairs(), [])
-        self.assertEqual(self.tree2.get_ordered_pairs(), [[1,3], [2,3]])        
+        self.assertEqual(self.tree1.get_ordered_pairs(), [[1, 'empty']])
+        self.assertEqual(self.tree2.get_ordered_pairs(), \
+                         [[1,3], [1, 'empty'], [2,3], [2,'empty'],[3, 'empty']])        
 
     # Test get_ordered_pairs returns pairs such that all parent
     # pairs are calculated before child pairs

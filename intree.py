@@ -84,6 +84,7 @@ class InTree:
     # get_ordered_pairs returns a list of node ancestor pairs such that for a 
     # parent i and child j all pairs of the form [i, k] are listed before
     # pairs of the form [j, k] for all k
+    # We also include "empty" as a possible child
     def get_ordered_pairs(self):
         pairs = []
         curr_level = self._leaves
@@ -93,9 +94,9 @@ class InTree:
             for i in curr_level:
                 for j in self.get_path(i, self._root)[1:]:
                     pairs.append([i,j])
-                    
+                pairs.append([i,"empty"])    
                 child = self._nodes[i].child()
-                if child != self._root and child != None:
+                if child != None:
                     next_level.add(child)     
             curr_level = next_level
 
