@@ -4,7 +4,9 @@ from DP import *
 #Function that computes \Delta^- from Honhon supplemental section
 #S:Assortment
 #j:prod you are considering adding
+#All of the other variables are the same as the descriptions in DP.py
 def DeltaMinus(tree, rev, S, j, f, costs, cust_classes):
+
 
     Delta=-costs[j]
     for g in cust_classes:
@@ -14,7 +16,8 @@ def DeltaMinus(tree, rev, S, j, f, costs, cust_classes):
             
             path = tree.get_path(g[0],g[1])
             pathLength=len(path)
-        
+            
+            #Find closest successor
             foundSuc=0
             for i in path[1:]:
                 if i in S and foundSuc==0:
@@ -22,6 +25,7 @@ def DeltaMinus(tree, rev, S, j, f, costs, cust_classes):
                     closestSuc=i
                     countLevel=path.index(closestSuc)
 
+            #Two cases given in supplement of Honhon
             if foundSuc==0:
                 Delta+=g[2]*(rev[j]-f[0] + f[pathLength])
             else:
@@ -58,15 +62,18 @@ def DeltaPlus(tree, rev, S, j, f, costs, cust_classes):
                         closestSuc=i
                         countLevel=path.index(closestSuc)
 
+
+                #Two cases in Honhon supplement
                 if foundSuc==0:
-                    
                     Delta+=g[2]*(rev[j]-f[levelJ] + f[pathLength])
                 else:
                     Delta+=g[2]*(rev[j]-rev[closestSuc] + (f[countLevel]-f[levelJ])) 
 
     return Delta
 
-#calculates revenue for an assortment
+#Finds the product that customer will buy given assortment S
+#customer: nonparamtric customer class
+#S: Assortment
 def prodPurchases(customer, S):
 
     sub=0
@@ -83,6 +90,7 @@ def prodPurchases(customer, S):
 
     return -1,sub
 
+#Calculates the revenue from assortment S
 def NPrev(tree, cust_classes,rev,costs, f,S):
     
     revTotal=0
@@ -113,14 +121,13 @@ def Alg3(tree, rev, costs, f, cust_classes):
 
     
     #Initialization of algorithm  
-    
     NDict={n:0}
     SDict={0:[]}
 
     #Get optimal assortment with no fixed costs
     SOpt= DP(tree, rev, [0]*n, f, cust_classes)[0]
 
-    SOpt=[1,2,3,4]
+    
     
 
     for j in range(n-1,-1,-1):
@@ -129,7 +136,7 @@ def Alg3(tree, rev, costs, f, cust_classes):
 
         if j in SOpt:
            
-
+            #Calculate Delta+ and Delta-
             for i in range(0,NDict[j+1]+1):
 
                 if DeltaMinus(tree, rev, SDict[i], j, f, costs, cust_classes)>0:
@@ -138,6 +145,8 @@ def Alg3(tree, rev, costs, f, cust_classes):
                     NDict[j]+=1
                     SDict[NDict[j]]=[j]+SDict[i]
 
+
+    #Find the best assortment from the candidate assortments
     bestRev=-1000000
     for j in SDict.keys():
         S=SDict[j]
