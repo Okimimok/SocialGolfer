@@ -27,7 +27,7 @@ def DeltaMinus(tree, rev, S, j, f, costs, cust_classes):
 
             #Two cases given in supplement of Honhon
             if foundSuc==0:
-                Delta+=g[2]*(rev[j]-f[0] + f[pathLength])
+                Delta+=g[2]*(rev[j]-f[0])
             else:
                 Delta+=g[2]*(rev[j]-rev[closestSuc] + (f[countLevel]-f[0])) 
 
@@ -65,7 +65,7 @@ def DeltaPlus(tree, rev, S, j, f, costs, cust_classes):
 
                 #Two cases in Honhon supplement
                 if foundSuc==0:
-                    Delta+=g[2]*(rev[j]-f[levelJ] + f[pathLength])
+                    Delta+=g[2]*(rev[j]-f[levelJ])
                 else:
                     Delta+=g[2]*(rev[j]-rev[closestSuc] + (f[countLevel]-f[levelJ])) 
 
@@ -103,10 +103,7 @@ def NPrev(tree, cust_classes,rev,costs, f,S):
         purchase,sub=prodPurchases(path,S)
 
         if purchase!=-1:
-        
             revTotal+=g[2]*(rev[purchase]-f[sub])
-        else:
-            revTotal+=g[2]*(-f[sub])
 
 
         
